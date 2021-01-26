@@ -1,17 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RestSharp;
-using RestSharp.Serialization.Json;
-using System;
+﻿using RestSharp;
 using System.Collections.Generic;
 using System.Net;
 
 namespace AngloAmericanAPITest
 { 
-   
-    [TestClass]
-    public class UnitTest1
-    {
 
+    public class Test
+    {
         public class CarData
         {
             public string make { get; set; }
@@ -23,29 +18,20 @@ namespace AngloAmericanAPITest
 
         }
 
-        public class root
+        public class CarInformation
         {
             public List<CarData> cardata { get; set; }
 
         }
 
- 
-        [TestMethod]
         public IRestResponse<List<CarData>> TestMethod1(string carName)
         {
             var client = new RestClient("http://localhost:54356/");
-
             var request = new RestRequest("/api/Cars/{car}", Method.GET);
             request.AddUrlSegment("car", carName);
             var response = client.Execute<List<CarData>>(request);
-            int statuscode =(int)response.StatusCode;
-            if (response.StatusCode == HttpStatusCode.OK)
-                return response;
-            else
-                throw new ApplicationException(response.ErrorMessage);
-                
-            
- 
+            HttpStatusCode statusCode = response.StatusCode;
+            return response;
            
         }
     }

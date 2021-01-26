@@ -21,6 +21,25 @@ Scenario: Validate 200 response - GET for SUV Cars
 	| Make   | Model        | Year | Type | ZeroToSixty | Price |
 	| Toyota | Land Cruiser | 2018 | Suv  | 12          | 45000 |
 
-Scenario: Validate 404 response - GET for SUV Cars
-	Given When I call the GET endpoint with "S"
-	Then I should see the response status code as "404"
+Scenario: Validate 404 response 
+	Given When I call the GET endpoint with "Tesla"
+	Then I should see the response status code as "NotFound"
+
+
+@manual
+Scenario: Validate 401 response
+	Given When I call the GET endpoint with "Saloon"
+	And I dont pass an authentication token
+	Then I should see the response status code as "401"
+
+@manual
+Scenario: Validate 500 response
+	Given When I call the GET endpoint with "Saloon"
+	And The Server encountered an unexpected condition
+	Then I should see the response status code as "500"
+
+@manual
+Scenario: Validate 503 response
+	Given When I call the GET endpoint with "Saloon"
+	And The Server is not available
+	Then I should see the response status code as "500"

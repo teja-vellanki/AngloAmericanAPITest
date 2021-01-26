@@ -1,41 +1,26 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-using System.Data;
 
 
 namespace AngloAmericanAPITest
 {
     [Binding]
    
-    public class StepDefinitions: UnitTest1
+    public class ApiTestStepDefinitions: Test
     {
-        private readonly ScenarioContext scenarioContext;
         RestSharp.IRestResponse<List<CarData>> restResponse;
-        private CarData _carsdata;
 
-        public StepDefinitions(ScenarioContext scenarioContext, CarData carsdata)
+        public ApiTestStepDefinitions()
         {
-            this.scenarioContext = scenarioContext;
-            _carsdata = carsdata;
-
         }
-
-    
 
         [Given(@"When I call the GET endpoint with ""(.*)""")]
         public void GivenWhenICallTheGETEndpointWith(string carName)
         {
-            UnitTest1 test = new UnitTest1();
+             Test test = new Test();
             restResponse = test.TestMethod1(carName);
-
-
         }
 
         [Then(@"The expected output as below")]
@@ -58,6 +43,33 @@ namespace AngloAmericanAPITest
 
             
         }
+
+        [Then(@"I should see the response status code as ""(.*)""")]
+        public void ThenIShouldSeeTheResponseStatusCodeAs(string _statuscode)
+        {
+            System.Net.HttpStatusCode statusCode = restResponse.StatusCode;
+            Assert.AreEqual(_statuscode, statusCode.ToString());
+        }
+
+
+        [Given(@"I dont pass an authentication token")]
+        public void GivenIDontPassAnAuthenticationToken()
+        {
+            //Manual Execution
+        }
+
+        [Given(@"The Server encountered an unexpected condition")]
+        public void GivenTheServerEncounteredAnUnexpectedCondition()
+        {
+            //Manual Execution
+        }
+
+        [Given(@"The Server is not available")]
+        public void GivenTheServerIsNotAvailable()
+        {
+            //Manual Execution
+        }
+
 
     }
 }
